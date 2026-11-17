@@ -46,10 +46,10 @@ function Calc() {
   return (
     <div>
       <PageHeader title={t("nav.calc")} sub={`${fxNote} · 1 EUR = ${FX.rates.USD} USD = ${FX.rates.PLN} PLN = ${FX.rates.KGS} KGS`} />
-      <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
-        <div className="space-y-5 rounded-lg border bg-card p-5">
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div><Label className="text-xs">Lot</Label><Select value={lotId} onValueChange={pickLot}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{lots.map((l) => <SelectItem key={l.id} value={l.id}>{l.id} · {l.grade}</SelectItem>)}</SelectContent></Select></div>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="min-w-0 space-y-5 rounded-lg border bg-card p-4 sm:p-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="col-span-2 sm:col-span-1"><Label className="text-xs">Lot</Label><Select value={lotId} onValueChange={pickLot}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{lots.map((l) => <SelectItem key={l.id} value={l.id}>{l.id} · {l.grade}</SelectItem>)}</SelectContent></Select></div>
             <div><Label className="text-xs">Incoterms® 2020</Label><Select value={i.incoterm} onValueChange={(v) => setI({ ...i, incoterm: v as "FCA" | "DAP" })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="FCA">FCA Bishkek</SelectItem><SelectItem value="DAP">DAP Warsaw</SelectItem></SelectContent></Select></div>
             {num("kg", tx("Объём", "Volume"), "kg")}
           </div>
@@ -60,14 +60,14 @@ function Calc() {
           {i.incoterm === "DAP" && <Section title={tx("Логистика и ЕС (EUR)", "Logistics & EU (EUR)")}>
             {num("tirFreightEur", "TIR Bishkek→Warsaw", "EUR")}{num("insurancePct", tx("Страховка", "Insurance"), "%")}{num("brokerEur", tx("Брокер", "Broker"), "EUR")}
             {num("vatPct", tx("НДС PL", "VAT PL"), "%")}
-            <div className="flex items-center gap-2 pt-5"><Switch checked={i.gsp} onCheckedChange={(v) => setI({ ...i, gsp: v })} /><Label className="text-xs">GSP+ 0% {tx("вместо", "instead of")} MFN {MFN_DUTY_PCT}%</Label></div>
+            <div className="col-span-2 flex items-center gap-2 sm:col-span-1 sm:pt-5"><Switch checked={i.gsp} onCheckedChange={(v) => setI({ ...i, gsp: v })} /><Label className="text-xs">GSP+ 0% {tx("вместо", "instead of")} MFN {MFN_DUTY_PCT}%</Label></div>
           </Section>}
           <Section title={tx("Цена и риск", "Price & risk")}>{num("riskPct", tx("Резерв риска", "Risk reserve"), "%")}{num("salePriceEurPerKg", tx("Цена продажи", "Sale price"), "EUR/kg", !showMargin)}</Section>
         </div>
-        <div className="space-y-4">
-          <div className="rounded-lg border bg-card p-5">
+        <div className="min-w-0 space-y-4">
+          <div className="rounded-lg border bg-card p-4 sm:p-5">
             <h3 className="mb-3 font-display text-lg font-bold">{tx("Расчёт", "Breakdown")} · {cur}</h3>
-            <table className="w-full text-sm"><tbody>{lines.map(([k, v, b]) => <tr key={k} className={cn("border-b", b && "font-semibold")}><td className="py-1.5">{k}</td><td className="text-right tabular-nums">{fmt(v)}</td></tr>)}</tbody></table>
+            <table className="w-full text-sm"><tbody>{lines.map(([k, v, b]) => <tr key={k} className={cn("border-b", b && "font-semibold")}><td className="py-1.5 pr-2">{k}</td><td className="whitespace-nowrap text-right tabular-nums">{fmt(v)}</td></tr>)}</tbody></table>
             <div className="mt-3 flex justify-between text-sm"><span className="text-muted-foreground">{tx("Себестоимость / кг", "Cost / kg")}</span><b>{fmt(r.perKg)}</b></div>
             {i.incoterm === "DAP" && <div className="flex justify-between text-xs text-muted-foreground"><span>{tx("Импортный НДС (возмещаемый, отдельно)", "Import VAT (recoverable, separate)")}</span><span>{fmt(r.vat)}</span></div>}
           </div>
@@ -86,4 +86,4 @@ function Calc() {
     </div>
   );
 }
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => <div><div className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">{title}</div><div className="grid gap-3 sm:grid-cols-3">{children}</div></div>;
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => <div><div className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">{title}</div><div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{children}</div></div>;

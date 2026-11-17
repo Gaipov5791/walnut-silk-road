@@ -37,11 +37,23 @@ function LotsPage() {
   return (
     <div>
       <PageHeader title={t("nav.lots")} sub={tx("Реестр партий · UNECE DDP-02 · Регламент ЕС 2023/915", "Lot registry · UNECE DDP-02 · Reg. (EU) 2023/915")}>
-        <Select value={filter} onValueChange={setFilter}><SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+        <Select value={filter} onValueChange={setFilter}><SelectTrigger className="w-32 sm:w-36"><SelectValue /></SelectTrigger>
           <SelectContent><SelectItem value="all">{tx("Все", "All")}</SelectItem>{Object.keys(NEXT_STATUS).map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
         {role === "operator" || role === "owner" ? <Button onClick={() => setNewOpen(true)}><Plus className="mr-1 h-4 w-4" />{tx("Новая партия", "New lot")}</Button> : null}
       </PageHeader>
-      <div className="overflow-x-auto rounded-lg border bg-card">
+      <div className="space-y-2 md:hidden">
+        {shown.map((l) => { const ok = canApprove(l); const bad = l.lab && (l.lab.b1 > AFLA_B1_MAX || l.lab.total > AFLA_TOTAL_MAX); return (
+          <button key={l.id} onClick={() => setOpenId(l.id)} className="w-full rounded-lg border bg-card p-3 text-left text-sm active:bg-muted/40">
+            <div className="flex items-center justify-between gap-2"><span className="font-mono font-medium">{l.id}</span><div className="flex shrink-0 items-center gap-2">{ok ? <CheckCircle2 className="h-4 w-4 text-success" /> : <Lock className="h-4 w-4 text-muted-foreground" />}<StatusBadge s={l.status} /></div></div>
+            <div className="mt-1 truncate text-muted-foreground">{suppliers.find((s) => s.id === l.supplierId)?.name}</div>
+            <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+              <span>{gradeLabel(l.grade, lang === "ru")}</span><span>{l.color}</span>
+              <span>{l.weightKg.toLocaleString()} kg</span><span className={cn(bad && "font-semibold text-destructive")}>B1/Σ: {l.lab ? `${l.lab.b1} / ${l.lab.total}` : "—"}</span>
+              {canSeePurchase(role) && <span className="col-span-2 text-muted-foreground">{tx("Закупка/кг", "Purchase/kg")}: {fmt(toEur(l.purchaseKgsPerKg, "KGS"))}</span>}
+            </div>
+          </button>); })}
+      </div>
+      <div className="hidden overflow-x-auto rounded-lg border bg-card md:block">
         <table className="w-full text-sm">
           <thead className="bg-muted/60 text-left text-xs uppercase text-muted-foreground"><tr className="[&_th]:px-4 [&_th]:py-3"><th>Lot ID</th><th>{t("supplier")}</th><th>{t("grade")}</th><th>{t("color")}</th><th className="text-right">{t("weight")}</th><th>B1 / Σ</th><th>{tx("Закупка/кг", "Purchase/kg")}</th><th>Gate</th><th>{t("status")}</th></tr></thead>
           <tbody>
@@ -93,7 +105,7 @@ function LotDialog({ lot, onClose }: { lot: Lot; onClose: () => void }) {
   };
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+      <DialogContent className="max-h-[90vh] w-[calc(100vw-1.5rem)] max-w-3xl overflow-y-auto p-4 sm:p-6">
         <DialogHeader><DialogTitle className="flex items-center gap-3 font-display text-2xl">{lot.id} <StatusBadge s={lot.status} /></DialogTitle></DialogHeader>
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2 text-sm">
