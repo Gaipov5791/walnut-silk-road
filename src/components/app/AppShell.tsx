@@ -84,7 +84,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <div className="flex items-center gap-2"><CurrencySelect className="h-9 flex-1 bg-background text-foreground" />
                 <Button variant="secondary" size="sm" className="h-9" onClick={() => { resetDemo(); setMenu(false); }}><RotateCcw className="mr-1 h-4 w-4" />{t("reset")}</Button></div>
             </div>
-            <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-3">
+            <nav className="scrollbar-none flex-1 space-y-0.5 overflow-y-auto overscroll-contain px-3 py-3">
               {items.map((n) => (
                 <Link key={n.to} to={n.to} className={cn("flex items-center gap-3 rounded-md px-3 py-2.5 text-sm hover:bg-sidebar-accent", path === n.to && "bg-sidebar-accent font-medium text-sidebar-primary")}>
                   <n.icon className="h-4 w-4" /> {t(n.key)}
