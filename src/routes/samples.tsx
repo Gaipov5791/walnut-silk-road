@@ -50,7 +50,7 @@ function Samples() {
       </div>
       {ship && <Dialog open onOpenChange={(o) => !o && setShip(null)}><DialogContent><DialogHeader><DialogTitle>{tx("Отправка образца", "Ship sample")} {ship.id}</DialogTitle></DialogHeader>
         <Input value={form.carrier} onChange={(e) => setForm({ ...form, carrier: e.target.value })} /><Input placeholder="Tracking #" value={form.tracking} onChange={(e) => setForm({ ...form, tracking: e.target.value })} />
-        <Button onClick={() => { if (!form.tracking) return toast.error("Tracking?"); upd(ship.id, { status: "shipped", carrier: form.carrier, tracking: form.tracking }); log(ship.id, "status", `shipped ${form.tracking}`); setShip(null); }}>{t("save")}</Button></DialogContent></Dialog>}
+        <Button onClick={() => { if (!form.tracking) { toast.error("Tracking?"); return; } upd(ship.id, { status: "shipped", carrier: form.carrier, tracking: form.tracking }); log(ship.id, "status", `shipped ${form.tracking}`); setShip(null); }}>{t("save")}</Button></DialogContent></Dialog>}
       {fb && <Dialog open onOpenChange={(o) => !o && setFb(null)}><DialogContent><DialogHeader><DialogTitle>{tx("Дегустационный отзыв", "Tasting feedback")}</DialogTitle></DialogHeader>
         <Textarea placeholder={tx("Цвет, вкус, горечь, влажность…", "Colour, taste, bitterness, moisture…")} value={form.feedback} onChange={(e) => setForm({ ...form, feedback: e.target.value })} />
         <Input type="number" min={1} max={10} value={form.score} onChange={(e) => setForm({ ...form, score: e.target.value })} />

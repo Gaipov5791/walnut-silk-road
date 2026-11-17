@@ -79,16 +79,16 @@ function LotDialog({ lot, onClose }: { lot: Lot; onClose: () => void }) {
   const attach = (field: "originFile" | "gspFormA") => { const f = `${field === "originFile" ? "Origin" : "GSP_FormA"}_${lot.id}.pdf`; updateLot(lot.id, { [field]: f }); log(lot.id, "file.upload", `${f} · sha256:${hashStr(f)}`); toast.success(tx("Файл прикреплён", "File attached")); };
   const saveLab = (withCoa: boolean) => {
     const vb1 = parseFloat(b1), vt = parseFloat(tot);
-    if (isNaN(vb1) || isNaN(vt)) return toast.error(tx("Введите значения", "Enter values"));
+    if (isNaN(vb1) || isNaN(vt)) { toast.error(tx("Введите значения", "Enter values")); return; }
     const coa = withCoa ? `COA_${lot.id}.pdf` : lot.lab?.coaFile;
     updateLot(lot.id, { qcApprovedBy: undefined, lab: { lab: "Eurofins Polska", sampledAt: "2026-11-14", validUntil: "2027-05-14", moisture: 4.1, b1: vb1, total: vt, coaFile: coa, coaHash: coa ? "sha256:" + hashStr(coa + vb1) : undefined, uploadedBy: role } });
     log(lot.id, "lab.upload", `B1 ${vb1} / total ${vt}${withCoa ? " + COA" : ""}`);
     toast.success(tx("Результаты сохранены — нужна новая подпись QC", "Results saved — new QC sign-off required"));
   };
-  const sign = () => { if (!canQcSign(lot, role)) return toast.error(tx("QC не может единолично подтвердить собственные данные", "QC cannot solely confirm its own data")); updateLot(lot.id, { qcApprovedBy: role }); log(lot.id, "qc.sign", `QC sign-off by ${role}`); toast.success("QC ✓"); };
+  const sign = () => { if (!canQcSign(lot, role)) { toast.error(tx("QC не может единолично подтвердить собственные данные", "QC cannot solely confirm its own data")); return; } updateLot(lot.id, { qcApprovedBy: role }); log(lot.id, "qc.sign", `QC sign-off by ${role}`); toast.success("QC ✓"); };
   const move = (to: Lot["status"]) => {
-    if (to === "approved" && !ok) { log(lot.id, "status.blocked", "approved blocked by Quality Gate"); return toast.error(t("gate.blocked")); }
-    if (to === "approved" && role !== "owner" && role !== "qc") return toast.error(tx("Только Owner/QC", "Owner/QC only"));
+    if (to === "approved" && !ok) { log(lot.id, "status.blocked", "approved blocked by Quality Gate"); { toast.error(t("gate.blocked")); return; } }
+    if (to === "approved" && role !== "owner" && role !== "qc") { toast.error(tx("Только Owner/QC", "Owner/QC only")); return; }
     setLotStatus(lot.id, lot.status, to); toast.success(`${lot.status} → ${to}`);
   };
   return (
