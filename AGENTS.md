@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Demo is frontend-only: state lives in `src/lib/store.ts` (localStorage), business rules in `src/lib/domain.ts` (pure, tested) — keeps rules portable to the future backend.
