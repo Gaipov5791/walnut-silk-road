@@ -7,7 +7,7 @@ import type { Rfq } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 
 export type DocKind = "spec" | "proforma";
-export function DocSheet({ open, onOpenChange, kind, lot, rfq }: { open: boolean; onOpenChange: (o: boolean) => void; kind: DocKind; lot?: Lot; rfq?: Rfq }) {
+export function DocSheet({ open, onOpenChange, kind, lot, rfq }: { open: boolean; onOpenChange: (o: boolean) => void; kind: DocKind; lot?: Lot | undefined; rfq?: Rfq | undefined }) {
   const { tx } = useT();
   const buyers = useStore((s) => s.buyers);
   const currency = useStore((s) => s.currency);

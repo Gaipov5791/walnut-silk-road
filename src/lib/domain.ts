@@ -12,13 +12,13 @@ export const AFLA_TOTAL_MAX = 4;
 export interface LabResult {
   lab: string; sampledAt: string; validUntil: string;
   b1: number; total: number; moisture: number;
-  coaFile?: string; coaHash?: string; uploadedBy: Role;
+  coaFile?: string | undefined; coaHash?: string | undefined; uploadedBy: Role;
 }
 export interface Lot {
   id: string; supplierId: string; weightKg: number; season: string; region: string;
   grade: Grade; color: KernelColor; packaging: string; status: LotStatus;
-  purchaseKgsPerKg: number; originFile?: string; gspFormA?: string;
-  lab?: LabResult; qcApprovedBy?: Role; photos: number;
+  purchaseKgsPerKg: number; originFile?: string | undefined; gspFormA?: string | undefined;
+  lab?: LabResult | undefined; qcApprovedBy?: Role | undefined; photos: number;
 }
 
 export interface GateCheck { key: string; ok: boolean; }

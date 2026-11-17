@@ -3,7 +3,7 @@ import { hashStr, type Currency, type Lang, type Lot, type LotStatus, type Role 
 
 export interface Supplier { id: string; name: string; region: string; contact: string; phone: string; verified: boolean; inn: string; notes: string; }
 export interface Buyer { id: string; company: string; country: string; contact: string; email: string; needs: string; stage: "lead" | "qualified" | "sampling" | "negotiation" | "loi"; history: { date: string; text: string }[]; }
-export interface Rfq { id: string; buyerId: string; volumeKg: number; grade: string; packaging: string; incoterm: "FCA" | "DAP"; deadline: string; tests: string; status: "new" | "quoted" | "approved" | "declined"; lotId?: string; quotes: { version: number; priceEurKg: number; date: string; approved: boolean }[]; }
+export interface Rfq { id: string; buyerId: string; volumeKg: number; grade: string; packaging: string; incoterm: "FCA" | "DAP"; deadline: string; tests: string; status: "new" | "quoted" | "approved" | "declined"; lotId?: string | undefined; quotes: { version: number; priceEurKg: number; date: string; approved: boolean }[]; }
 export interface Sample { id: string; lotId: string; buyerId: string; status: "requested" | "shipped" | "delivered" | "feedback"; carrier?: string; tracking?: string; requestedAt: string; feedback?: string; score?: number; result?: "accepted" | "rejected"; }
 export interface Audit { id: number; at: string; role: Role; entity: string; action: string; detail: string; hash: string; prev: string; }
 

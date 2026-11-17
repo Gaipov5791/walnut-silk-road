@@ -39,6 +39,7 @@ function Calc() {
   ];
   const saveQuote = () => {
     const rfq = rfqs.find((x) => x.lotId === lotId) ?? rfqs[0];
+    if (!rfq) return;
     setState((s) => ({ rfqs: s.rfqs.map((x) => x.id === rfq.id ? { ...x, lotId, status: "quoted", quotes: [...x.quotes, { version: x.quotes.length + 1, priceEurKg: i.salePriceEurPerKg, date: new Date().toISOString().slice(0, 10), approved: false }] } : x) }));
     log(rfq.id, "quote", `v${rfq.quotes.length + 1} ${i.salePriceEurPerKg} EUR/kg · cost ${r.perKg.toFixed(2)} EUR/kg`); toast.success(`${rfq.id}: v${rfq.quotes.length + 1}`);
   };

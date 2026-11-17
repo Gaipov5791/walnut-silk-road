@@ -12,7 +12,7 @@ export const Route = createFileRoute("/audit")({
 function Audit() {
   const { t, tx } = useT();
   const audit = useStore((s) => s.audit);
-  const intact = audit.every((a, i) => a.prev === (i ? audit[i - 1].hash : "00000000") && a.hash === hashStr(a.prev + a.at + a.role + a.entity + a.action + a.detail));
+  const intact = audit.every((a, i) => a.prev === (i ? audit[i - 1]!.hash : "00000000") && a.hash === hashStr(a.prev + a.at + a.role + a.entity + a.action + a.detail));
   return (
     <div>
       <PageHeader title={t("nav.audit")} sub={tx("Только добавление записей. Редактирование недоступно ни одной роли.", "Append-only. No role can edit entries.")}>
