@@ -10,15 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as BuyersRouteImport } from './routes/buyers'
 import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as CatalogRouteImport } from './routes/catalog'
 import { Route as LotsRouteImport } from './routes/lots'
 import { Route as RfqRouteImport } from './routes/rfq'
+import { Route as SamplesRouteImport } from './routes/samples'
 import { Route as SuppliersRouteImport } from './routes/suppliers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BuyersRoute = BuyersRouteImport.update({
@@ -31,6 +39,11 @@ const CalculatorRoute = CalculatorRouteImport.update({
   path: '/calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LotsRoute = LotsRouteImport.update({
   id: '/lots',
   path: '/lots',
@@ -41,6 +54,11 @@ const RfqRoute = RfqRouteImport.update({
   path: '/rfq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SamplesRoute = SamplesRouteImport.update({
+  id: '/samples',
+  path: '/samples',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuppliersRoute = SuppliersRouteImport.update({
   id: '/suppliers',
   path: '/suppliers',
@@ -49,50 +67,83 @@ const SuppliersRoute = SuppliersRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/buyers': typeof BuyersRoute
   '/calculator': typeof CalculatorRoute
+  '/catalog': typeof CatalogRoute
   '/lots': typeof LotsRoute
   '/rfq': typeof RfqRoute
+  '/samples': typeof SamplesRoute
   '/suppliers': typeof SuppliersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/buyers': typeof BuyersRoute
   '/calculator': typeof CalculatorRoute
+  '/catalog': typeof CatalogRoute
   '/lots': typeof LotsRoute
   '/rfq': typeof RfqRoute
+  '/samples': typeof SamplesRoute
   '/suppliers': typeof SuppliersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/buyers': typeof BuyersRoute
   '/calculator': typeof CalculatorRoute
+  '/catalog': typeof CatalogRoute
   '/lots': typeof LotsRoute
   '/rfq': typeof RfqRoute
+  '/samples': typeof SamplesRoute
   '/suppliers': typeof SuppliersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/buyers' | '/calculator' | '/lots' | '/rfq' | '/suppliers'
+  fullPaths:
+    | '/'
+    | '/audit'
+    | '/buyers'
+    | '/calculator'
+    | '/catalog'
+    | '/lots'
+    | '/rfq'
+    | '/samples'
+    | '/suppliers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/buyers' | '/calculator' | '/lots' | '/rfq' | '/suppliers'
+  to:
+    | '/'
+    | '/audit'
+    | '/buyers'
+    | '/calculator'
+    | '/catalog'
+    | '/lots'
+    | '/rfq'
+    | '/samples'
+    | '/suppliers'
   id:
     | '__root__'
     | '/'
+    | '/audit'
     | '/buyers'
     | '/calculator'
+    | '/catalog'
     | '/lots'
     | '/rfq'
+    | '/samples'
     | '/suppliers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditRoute: typeof AuditRoute
   BuyersRoute: typeof BuyersRoute
   CalculatorRoute: typeof CalculatorRoute
+  CatalogRoute: typeof CatalogRoute
   LotsRoute: typeof LotsRoute
   RfqRoute: typeof RfqRoute
+  SamplesRoute: typeof SamplesRoute
   SuppliersRoute: typeof SuppliersRoute
 }
 
@@ -103,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/buyers': {
@@ -119,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lots': {
       id: '/lots'
       path: '/lots'
@@ -133,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RfqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/samples': {
+      id: '/samples'
+      path: '/samples'
+      fullPath: '/samples'
+      preLoaderRoute: typeof SamplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/suppliers': {
       id: '/suppliers'
       path: '/suppliers'
@@ -145,10 +217,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditRoute: AuditRoute,
   BuyersRoute: BuyersRoute,
   CalculatorRoute: CalculatorRoute,
+  CatalogRoute: CatalogRoute,
   LotsRoute: LotsRoute,
   RfqRoute: RfqRoute,
+  SamplesRoute: SamplesRoute,
   SuppliersRoute: SuppliersRoute,
 }
 export const routeTree = rootRouteImport
